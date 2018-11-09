@@ -1,0 +1,216 @@
+package suanfa.pan.com.algorithm;
+
+import java.util.Stack;
+
+/**
+ * Created by Lenovo on 2018/11/8.
+ */
+
+public class BinaryTree {
+    private static TreeNode root;
+
+    public BinaryTree() {
+        root = new TreeNode(1, "A");
+    }
+
+
+    public class TreeNode<T> {
+        private int index;
+        private T data;
+        private TreeNode leftChild;
+        private TreeNode rightChild;
+
+        public TreeNode(int index, T data) {
+            this.index = index;
+            this.data = data;
+            this.leftChild = null;
+            this.rightChild = null;
+        }
+
+        public int getIndex() {
+            return index;
+        }
+
+        public T getData() {
+            return data;
+        }
+    }
+
+    /**
+     * 构建二叉树
+     * A
+     * B                C
+     * D             E                 F
+     */
+    public void createBinary() {
+        TreeNode nodeB = new TreeNode(2, "B");
+        TreeNode nodeC = new TreeNode(3, "C");
+        TreeNode nodeD = new TreeNode(4, "D");
+        TreeNode nodeE = new TreeNode(5, "E");
+        TreeNode nodeF = new TreeNode(6, "F");
+        root.leftChild = nodeB;
+        root.rightChild = nodeC;
+        nodeB.leftChild = nodeD;
+        nodeB.rightChild = nodeE;
+        nodeC.rightChild = nodeF;
+    }
+
+    /**
+     * 构建二叉树
+     * A
+     * B                C
+     * D         E                 F
+     */
+    public void createBinary(String[] nodes) {
+        for (int i = 0; i < nodes.length; i++) {
+
+        }
+        TreeNode nodeB = new TreeNode(2, "B");
+        TreeNode nodeC = new TreeNode(3, "C");
+        TreeNode nodeD = new TreeNode(4, "D");
+        TreeNode nodeE = new TreeNode(5, "E");
+        TreeNode nodeF = new TreeNode(6, "F");
+        root.leftChild = nodeB;
+        root.rightChild = nodeC;
+        nodeB.leftChild = nodeD;
+        nodeB.rightChild = nodeE;
+        nodeC.rightChild = nodeF;
+    }
+
+    /**
+     * 获取二叉树的高度
+     *
+     * @param node
+     * @return
+     */
+    public int getHeight(TreeNode node) {
+        if (node == null) {
+            return 0;
+        } else {
+            int i = getHeight(node.leftChild);
+            int j = getHeight(node.rightChild);
+            return i > j ? i + 1 : j + 1;
+        }
+    }
+
+    /**
+     * 获取二叉树的接点数
+     *
+     * @param root
+     * @return
+     */
+    public int getNodeSize(TreeNode root) {
+        if (root == null) {
+            return 0;
+        } else {
+            int i = getNodeSize(root.leftChild);
+            int j = getNodeSize(root.rightChild);
+            return i + j + 1;
+        }
+    }
+
+    /**
+     * 前序遍历
+     *
+     * @param root
+     */
+    public void preOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        } else {
+            System.out.print(root.getData());
+            preOrder(root.leftChild);
+            preOrder(root.rightChild);
+        }
+    }
+
+    /**
+     * 前序遍历 --非迭代
+     *
+     * @param root
+     */
+    public void noPreOrder(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode n = stack.pop();
+            System.out.print(n.getData());
+            if (n.rightChild != null)
+                stack.push(n.rightChild);
+            if (n.leftChild != null)
+                stack.push(n.leftChild);
+        }
+
+    }
+
+    /**
+     * 中序遍历
+     *
+     * @param root
+     */
+    public void midOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        } else {
+            midOrder(root.leftChild);
+            System.out.print(root.getData());
+            midOrder(root.rightChild);
+        }
+    }
+//    /**
+//     * 中序遍历 --- 非迭代
+//     *
+//     * @param root
+//     */
+//    public void noMidOrder(TreeNode root) {
+//        Stack<TreeNode> stackleft = new Stack<>();
+//        Stack<TreeNode> stackRight = new Stack<>();
+//        stack.push(root);
+//        while (!stack.isEmpty()){
+//            TreeNode n = stack.pop();
+//
+//            if (n.rightChild != null)
+//                stack.push(n.rightChild);
+//
+//            stack.push(n);
+//            if (n.leftChild != null)
+//                stack.push(n.leftChild);
+//            if (stack.pop().d)
+//        }
+//    }
+
+    /**
+     * 后序遍历
+     *
+     * @param root
+     */
+    public void postOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        } else {
+            postOrder(root.leftChild);
+            postOrder(root.rightChild);
+            System.out.print(root.getData());
+        }
+    }
+
+    public static void main(String[] arg0) {
+        BinaryTree binaryTree = new BinaryTree();
+        binaryTree.createBinary();
+        System.out.println("treeHeight : " + binaryTree.getHeight(root));
+        System.out.println("treeSize : " + binaryTree.getNodeSize(root));
+        System.out.println();
+        System.out.print("preOrder : ");
+        binaryTree.preOrder(root);
+        System.out.println();
+        System.out.print("noPreOrder : ");
+        binaryTree.noPreOrder(root);
+        System.out.println();
+        System.out.print("midOrder : ");
+        binaryTree.midOrder(root);
+        System.out.println();
+        System.out.print("postOrder : ");
+        binaryTree.postOrder(root);
+
+    }
+}
