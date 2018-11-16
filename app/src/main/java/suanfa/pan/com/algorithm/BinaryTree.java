@@ -92,8 +92,8 @@ public class BinaryTree {
     /**
      * 通过中序遍历反向生成二叉树
      * <p>
-     *       A
-     *    B          C
+     * A
+     * B          C
      * D      E    #        F
      * ##   #  #         #    #
      * 前序ABDECF
@@ -122,6 +122,7 @@ public class BinaryTree {
         return treeNode;
 
     }
+
     /**
      * 构建二叉树
      * A
@@ -231,20 +232,19 @@ public class BinaryTree {
      * @param root
      */
     public void noMidOrder(TreeNode root) {
-//        Stack<TreeNode> stack = new Stack<>();
-//        Stack<TreeNode> stackRight = new Stack<>();
-//        stack.push(root);
-//        while (!stack.isEmpty()){
-//            TreeNode n = stack.pop();
-//
-//            if (n.rightChild != null)
-//                stack.push(n.rightChild);
-//
-//            stack.push(n);
-//            if (n.leftChild != null)
-//                stack.push(n.leftChild);
-//            if (stack.pop().d)
-//        }
+        Stack<TreeNode> stack = new Stack<>();
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.leftChild;
+            }
+            if (!stack.isEmpty()) {
+                TreeNode node = stack.pop();
+                System.out.print(node.data);
+                root = node.rightChild;
+            }
+
+        }
     }
 
     /**
@@ -259,6 +259,35 @@ public class BinaryTree {
             postOrder(root.leftChild);
             postOrder(root.rightChild);
             System.out.print(root.getData());
+        }
+    }
+
+    /**
+     * 后序遍历 --- 非迭代
+     *
+     * @param root
+     */
+    public void noPostOrder(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode lastNode = null;
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.leftChild;
+            }
+            if (!stack.isEmpty()) {
+                root = stack.peek().rightChild;
+                if (lastNode== root || root == null) {
+                    TreeNode treeNode = stack.pop();
+                    System.out.print(treeNode.data);
+                    lastNode = treeNode;
+                } else {
+                    stack.push(stack.peek().rightChild);
+                }
+
+
+            }
+
         }
     }
 
@@ -279,8 +308,14 @@ public class BinaryTree {
         System.out.print("midOrder : ");
         binaryTree.midOrder(root);
         System.out.println();
+        System.out.print("noMidOrder : ");
+        binaryTree.noMidOrder(root);
+        System.out.println();
         System.out.print("postOrder : ");
         binaryTree.postOrder(root);
+        System.out.println();
+        System.out.print("NoPostOrder : ");
+        binaryTree.noPostOrder(root);
         String[] str = {"A", "B", "D", "#", "#", "E", "#", "#", "C", "#", "F", "#", "#"};
         for (int i = 0; i < str.length; i++) {
             list.add(str[i]);
