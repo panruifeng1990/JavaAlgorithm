@@ -1,5 +1,6 @@
 package suanfa.pan.com.algorithm;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 /**
@@ -55,6 +56,72 @@ public class BinaryTree {
         nodeC.rightChild = nodeF;
     }
 
+    /**
+     * 通过前序遍历反向生成二叉树
+     * <p>
+     * A
+     * B          C
+     * D      E           F
+     * <p>
+     * 前序ABDECF
+     * <p>
+     * ABD##E##C#F##
+     */
+    int i = 0;
+
+    public TreeNode createBinaryTreePre(ArrayList<String> data) {
+        if (i >= data.size()) return null;
+        TreeNode treeNode;
+        if ("#".equals(data.get(i))) {
+            i++;
+            treeNode = null;
+            return treeNode;
+
+        } else {
+            treeNode = new TreeNode(i, data.get(i));
+        }
+        if (i == 0) {
+            root = treeNode;
+        }
+        i++;
+        treeNode.leftChild = createBinaryTreePre(data);
+        treeNode.rightChild = createBinaryTreePre(data);
+        return treeNode;
+    }
+
+    /**
+     * 通过中序遍历反向生成二叉树
+     * <p>
+     *       A
+     *    B          C
+     * D      E    #        F
+     * ##   #  #         #    #
+     * 前序ABDECF
+     * <p>
+     * #D#B#E#A#C#F#
+     */
+
+    public TreeNode createBinaryTreeMid(ArrayList<String> data) {
+
+        if (i >= data.size()) return null;
+        TreeNode treeNode;
+        if ("#".equals(data.get(i))) {
+            i++;
+            treeNode = null;
+            return treeNode;
+
+        } else {
+            treeNode = new TreeNode(i, data.get(i));
+        }
+        if (i == 0) {
+            root = treeNode;
+        }
+        i++;
+        treeNode.leftChild = createBinaryTreeMid(data);
+        treeNode.rightChild = createBinaryTreeMid(data);
+        return treeNode;
+
+    }
     /**
      * 构建二叉树
      * A
@@ -157,13 +224,14 @@ public class BinaryTree {
             midOrder(root.rightChild);
         }
     }
-//    /**
-//     * 中序遍历 --- 非迭代
-//     *
-//     * @param root
-//     */
-//    public void noMidOrder(TreeNode root) {
-//        Stack<TreeNode> stackleft = new Stack<>();
+
+    /**
+     * 中序遍历 --- 非迭代
+     *
+     * @param root
+     */
+    public void noMidOrder(TreeNode root) {
+//        Stack<TreeNode> stack = new Stack<>();
 //        Stack<TreeNode> stackRight = new Stack<>();
 //        stack.push(root);
 //        while (!stack.isEmpty()){
@@ -177,7 +245,7 @@ public class BinaryTree {
 //                stack.push(n.leftChild);
 //            if (stack.pop().d)
 //        }
-//    }
+    }
 
     /**
      * 后序遍历
@@ -193,6 +261,8 @@ public class BinaryTree {
             System.out.print(root.getData());
         }
     }
+
+    static ArrayList<String> list = new ArrayList<>();
 
     public static void main(String[] arg0) {
         BinaryTree binaryTree = new BinaryTree();
@@ -211,6 +281,13 @@ public class BinaryTree {
         System.out.println();
         System.out.print("postOrder : ");
         binaryTree.postOrder(root);
+        String[] str = {"A", "B", "D", "#", "#", "E", "#", "#", "C", "#", "F", "#", "#"};
+        for (int i = 0; i < str.length; i++) {
+            list.add(str[i]);
+        }
 
+        System.out.println();
+        System.out.print("preOrder : ");
+        binaryTree.preOrder(binaryTree.createBinaryTreePre(list));
     }
 }
